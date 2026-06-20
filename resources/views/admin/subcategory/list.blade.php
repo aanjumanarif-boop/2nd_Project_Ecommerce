@@ -1,0 +1,87 @@
+@extends('admin.master')
+@section('content')
+   <div class="app-content">
+          <!--begin::Container-->
+          <div class="app-content-header">
+          <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+              <div class="col-sm-6">
+                <h3>SubCategory List</h3>
+                  </div>
+                 
+                  <div class="card-body">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th style="width: 10px">#</th>
+                          
+                          <th>SubCategory Name</th>
+                          <th>Category Name</th>
+                          <th style="width: 40px">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       @foreach ($subCategories as $subCategory)
+                         <tr class="align-middle">
+                          <td>{{$loop->index+1}}</td>
+                         <td>{{$subCategory->name}}</td>
+                         <td>{{$subCategory->category->name}}</td>
+                          <td>
+                          <div class="d-flex gap-2">
+                            <a href="{{url('/manage/subcategory-edit/'.$subCategory->id)}}" class="btn btn-success">Edit</a>
+                            <a href="{{url('/manage/subcategory-delete/'.$subCategory->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                          </div>
+                          </td>
+                        </tr>   
+                       @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                  <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-end">
+                      <li class="page-item">
+                        <a class="page-link" href="#">&laquo;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">&raquo;</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /.card -->
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+             
+                    
+
+                   
+                  </div>
+                 
+                </div>
+                <!-- /.card -->
+
+              
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+ 
+@endsection
