@@ -34,7 +34,7 @@
          
 
      @include('admin.includes.script')
-
+     @stack('script')
     <!--end::Script-->
   </body>
   <!--end::Body-->
