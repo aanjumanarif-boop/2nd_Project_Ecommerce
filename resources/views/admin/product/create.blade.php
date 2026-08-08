@@ -189,7 +189,7 @@
                                    <div class="input-group mb-3">
                                           <input type="file" class="form-control" name="image" id="image" accept="image/*"/>
                                           <label class="input-group-text" for="image">Main Image</label>
-                                             @error('description')
+                                             @error('image')
                                                    <span class="text-success">{{$message}}</span>   
                                                   @enderror
                                       </div>
@@ -197,7 +197,7 @@
                                     <div class="input-group mb-3">
                                           <input type="file" class="form-control" name="gallery_image[]" id="gallery_image" accept="image/*" multiple/>
                                           <label class="gallery_image" for="gallery_image">Gallery Image</label>
-                                             @error('description')
+                                             @error('gallery_image')
                                                    <span class="text-success">{{$message}}</span>   
                                                   @enderror
                                     </div>

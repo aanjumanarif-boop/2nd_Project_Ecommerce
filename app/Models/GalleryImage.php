@@ -9,4 +9,9 @@ class GalleryImage extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+     public function product ()
+    {
+        return $this->belongsTo(Products::class, 'product_id', 'id');
+    }
 }

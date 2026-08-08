@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Employee\EmployeeController;
@@ -14,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/',[FrontendController::class,'index']);
-Route::get('/product-details',[FrontendController::class,'productDetails']);
+Route::get('/product-details/{slug}',[FrontendController::class,'productDetails']);
 Route::get('/shop',[FrontendController::class,'shopProducts']);
 Route::get('/privacy-policy',[FrontendController::class,'privacyPolicy']);
 Route::get('/terms-conditions',[FrontendController::class,'termsConditions']);
@@ -22,13 +25,20 @@ Route::get('/refund-policy',[FrontendController::class,'refundPolicy']);
 Route::get('/payment-policy',[FrontendController::class,'paymentPolicy']);
 Route::get('/aboutus',[FrontendController::class,'aboutUs']);
 Route::get('/contactus',[FrontendController::class,'contactUs']);
+Route::post('/contact-message/store',[FrontendController::class,'contactMessageStore']);
 Route::get('/view-cart',[FrontendController::class,'viewCart']);
 Route::get('/checkout',[FrontendController::class,'checkOut']);
-Route::get('/order-confirmation',[FrontendController::class,'orderConfirmation']);
+
 Route::get('/category-products',[FrontendController::class,'categoryProducts']);
 Route::get('/subcategory-products',[FrontendController::class,'subcategoryProducts']); 
 Route::get('/type-products',[FrontendController::class,'typeProducts']);
 
+ //Order Route..............
+ Route::post('/add-cart-details/{id}',[FrontendController::class,'addtocartDetailsPage']);
+ Route::get('/add-cart/{id}', [FrontendController::class, 'addtocart']);
+ Route::get('/delete-cart/{id}', [FrontendController::class, 'deleCart']);
+ Route::post('/customer-order-store', [FrontendController::class, 'orderStore']);
+ Route::get('/order-confirmation/{invoice_id}', [FrontendController::class, 'orderConfirmation']);
 //  Login Route...............
 
 Route::get('/admin/login',[LoginController::class,'adminLogin']);
@@ -73,6 +83,12 @@ Route::middleware(['role:admin'])->group(function(){
   Route::get('/manage/product-edit/{id}',[ProductController::class,'edit']);
   Route::post('/manage/product-update/{id}',[ProductController::class,'update']);
   Route::get('/manage/product-delete/{id}',[ProductController::class,'delete']);
+  Route::get('/manage/product-status/{id}', [ProductController::class, 'changeStatus']);
+
+  //contact Message Route...........
+  Route::get('/manage/contact-messages',[ContactMessageController::class,'getContactMessages']);
+  Route::get('/delete/contact-message/{id}',[ContactMessageController::class,'deleteContactMessage']);
+  
 
 });
 
@@ -89,4 +105,31 @@ Route::middleware(['role:employee'])->group(function(){
 Route::middleware(['role:customer'])->group(function(){
     Route::get('/customer/dashboard',[CustomerController::class,'dashboard']);
     Route::get('/customer/logout', [CustomerController::class,'customerLogout']);
+    Route::get('/customer/profile-view',[CustomerController::class,'customerProfileView']);
+    Route::post('/customer/profile-update', [CustomerController::class,'customerProfileUpdate']);
+    Route::get('/customer/credentials-view',[CustomerController::class,'customerCredentialView']);
+    Route::post('/customer/update-credentials', [CustomerController::class,'customerCredentialUpdate']);
 });
+
+//employee group admin customer group..........
+Route::middleware(['role:employee,admin'])->group(function(){
+    //setting Route.............//
+    Route::get('/manage/website-settings',[SettingController::class,'manageSetting']);
+    Route::post('/manage/website-settings/update',[SettingController::class,'updateSetting']);
+
+    Route::get('/manage/website-policy',[SettingController::class,'managePolicy']);
+    Route::post('/manage/website-policy/update',[SettingController::class,'updatePolicy']);
+
+    //Review Route..............
+    Route::get('/manage/review-list', [ReviewController::class, 'reviewList']);
+    Route::get('/manage/review-create', [ReviewController::class, 'reviewCreate']);
+    Route::post('/manage/review-store', [ReviewController::class, 'reviewStore']);
+    Route::get('/manage/review-edit/{id}', [ReviewController::class, 'reviewEdit']);
+    Route::post('/manage/review-update/{id}', [ReviewController::class, 'reviewUpdate']);
+    Route::get('/manage/review-delete/{id}', [ReviewController::class, 'reviewDelete']);
+});
+
+Route::middleware(['role:employee,admin,customer'])->group(function(){
+  
+});
+ 
