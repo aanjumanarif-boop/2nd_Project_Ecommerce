@@ -3,24 +3,30 @@
 @section('content')
     <main>
         <!-- /Home Slider -->
-        <section class="home-slider-section">
+        {{-- <section class="home-slider-section">
             <div class="container">
                 <div class="home__slider-sec-wrap">
                     <div class="home__category-outer">
                         <ul class="header__category-list">
-                            <li class="header__category-list-item item-has-submenu">
+                          @foreach ($globalCategories as $category)
+							  <li class="header__category-list-item item-has-submenu">
                                 <a href="{{url('/category-products')}}" class="header__category-list-item-link">
-                                    <img src="{{ asset('frontend/assets/images/product.png') }}" alt="category">
-                                    Test Category
+                                    <img src="{{($category->image)}}" alt="category">
+                                   {{$category->name}}
                                 </a>
                                 <ul class="header__nav-item-category-submenu">
-                                    <li class="header__category-submenu-item">
-                                        <a href="{{url('/subcategory-products')}}" class="header__category-submenu-item-link">
-                                            Test Subcategory
+                                  @foreach ($globalsubCategories as $subCategory )
+									  <li class="header__category-submenu-item">
+                                        <a href="{{($subCategory->image)}}" class="header__category-submenu-item-link">
+                                          {{$subCategory->name}}
                                         </a>
                                     </li>
+								  @endforeach
                                 </ul>
                             </li>
+						  @endforeach
+
+
                         </ul>
                     </div>
                     <div class="home__slider-items-wrapper">
@@ -31,8 +37,41 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- /Home Slider -->
+        </section> --}}
+
+		<section class="home-slider-section">
+			<div class="container">
+				<div class="home__slider-sec-wrap">
+					<div class="home__category-outer">
+						<ul class="header__category-list">
+							@foreach ( $globalCategories as $category )
+							<li class="header__category-list-item item-has-submenu">
+								<a href="{{url('/category-products/'.$category->slug)}}" class="header__category-list-item-link">
+									<img src="{{$category->image}}" alt="category">
+									{{$category->name}}
+								</a>
+								<ul class="header__nav-item-category-submenu">
+									@foreach ( $category->subCategory as $subCategory )
+									<li class="header__category-submenu-item">
+										<a href="{{url('/subcategory-products/'.$subCategory->slug)}}" class="header__category-submenu-item-link">
+											{{$subCategory->name}}
+										</a>
+									</li>
+									@endforeach
+								</ul>
+							</li>
+							@endforeach
+						</ul>
+					</div>
+					<div class="home__slider-items-wrapper">
+						<div class="home__slider-item-outer">
+							<img src="{{asset('frontend/assets/images/slider.jpg')}}" alt="image" class="home__slider-item-image">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+      <!-- /Home Slider -->
 
         <!-- Categoris Slider -->
          

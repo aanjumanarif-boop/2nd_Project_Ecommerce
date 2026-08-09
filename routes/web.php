@@ -28,10 +28,9 @@ Route::get('/contactus',[FrontendController::class,'contactUs']);
 Route::post('/contact-message/store',[FrontendController::class,'contactMessageStore']);
 Route::get('/view-cart',[FrontendController::class,'viewCart']);
 Route::get('/checkout',[FrontendController::class,'checkOut']);
-
-Route::get('/category-products',[FrontendController::class,'categoryProducts']);
-Route::get('/subcategory-products',[FrontendController::class,'subcategoryProducts']); 
-Route::get('/type-products',[FrontendController::class,'typeProducts']);
+Route::get('/category-products/{slug}',[FrontendController::class,'categoryProducts']);
+Route::get('/subcategory-products/{slug}',[FrontendController::class,'subcategoryProducts']); 
+Route::get('/type-products/{type}',[FrontendController::class,'typeProducts']);
 
  //Order Route..............
  Route::post('/add-cart-details/{id}',[FrontendController::class,'addtocartDetailsPage']);
