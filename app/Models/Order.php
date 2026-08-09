@@ -9,4 +9,9 @@ class Order extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function orderDetails()
+      {
+        return $this->hasMany(OrderDetails::class, 'order_id', 'id')->with('product');
+    } 
 }

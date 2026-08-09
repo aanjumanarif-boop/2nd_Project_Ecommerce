@@ -108,6 +108,11 @@ Route::middleware(['role:customer'])->group(function(){
     Route::post('/customer/profile-update', [CustomerController::class,'customerProfileUpdate']);
     Route::get('/customer/credentials-view',[CustomerController::class,'customerCredentialView']);
     Route::post('/customer/update-credentials', [CustomerController::class,'customerCredentialUpdate']);
+
+
+        //Order Routes...
+    Route::get('/customer/orders/{status}', [CustomerController::class, 'customerOrders']);
+    Route::get('/customer/order-cancel/{id}', [CustomerController::class, 'customerOrderCancel']);
 });
 
 //employee group admin customer group..........
