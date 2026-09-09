@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
@@ -55,8 +56,8 @@ Auth::routes(['login' => false, 'register' =>false]);
 
 //admin group...........
 Route::middleware(['role:admin'])->group(function(){
-  Route::get('/admin/dashboard',[AdminController::class,'dashboard']);
-  Route::get('/admin/logout', [AdminController::class,'adminLogout']);
+
+
 
   //Category Routes...........
   Route::get('/manage/category-create',[CategoryController::class,'create']);
@@ -117,6 +118,8 @@ Route::middleware(['role:customer'])->group(function(){
 
 //employee group admin customer group..........
 Route::middleware(['role:employee,admin'])->group(function(){
+    Route::get('/admin/dashboard',[AdminController::class,'dashboard']);
+    Route::get('/admin/logout', [AdminController::class,'adminLogout']);
     //setting Route.............//
     Route::get('/manage/website-settings',[SettingController::class,'manageSetting']);
     Route::post('/manage/website-settings/update',[SettingController::class,'updateSetting']);
@@ -131,6 +134,18 @@ Route::middleware(['role:employee,admin'])->group(function(){
     Route::get('/manage/review-edit/{id}', [ReviewController::class, 'reviewEdit']);
     Route::post('/manage/review-update/{id}', [ReviewController::class, 'reviewUpdate']);
     Route::get('/manage/review-delete/{id}', [ReviewController::class, 'reviewDelete']);
+
+    //Order Routes//
+    Route::get('/manage/orders/{status}', [OrderController::class, 'showOrders']);
+    Route::get('/manage/order-details/{id}', [OrderController::class, 'detailOrder']);
+    Route::post('/manage/order-update/{id}', [OrderController::class, 'updateOrder']);
+    Route::post('/manage/order-details/update/{id}', [OrderController::class, 'updateOrderDetails']);
+    Route::post('/manage/order-status-update/{id}', [OrderController::class, 'updateOrderStatus']);
+    Route::post('/manage/order-print-bulk', [OrderController::class, 'printBulkInvoice']);
+
+    //Courier Entry...
+    Route::get('/manage/order-courier-entry/{order_id}', [OrderController::class, 'courierEntry']);
+
 });
 
 Route::middleware(['role:employee,admin,customer'])->group(function(){

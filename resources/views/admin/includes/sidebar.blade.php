@@ -29,11 +29,13 @@
               data-accordion="false"
               id="navigation"
             >
+           
+                  @if (auth()->user()->role == 'admin')
               <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
-                     Category
+                    Category
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
@@ -50,15 +52,14 @@
                       <p>Add New</p>
                     </a>
                   </li>
-               
                 </ul>
               </li>
 
-               <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
-                     SubCategory
+                    SubCategory
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
@@ -75,19 +76,17 @@
                       <p>Add New</p>
                     </a>
                   </li>
-               
                 </ul>
               </li>
 
-                  <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
-                    product
+                    Product
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
-                </a> 
-
+                </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{url('/manage/product-list')}}" class="nav-link active">
@@ -95,26 +94,25 @@
                       <p>List</p>
                     </a>
                   </li>
-
                   <li class="nav-item">
                     <a href="{{url('/manage/product-create')}}" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>Add New</p>
                     </a>
                   </li>
-               
                 </ul>
               </li>
+              @endif
+            
 
-               <li class="nav-item">
+                <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
-                    product Review
+                    Product Review
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
-                </a> 
-
+                </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="{{url('/manage/review-list')}}" class="nav-link active">
@@ -122,18 +120,69 @@
                       <p>List</p>
                     </a>
                   </li>
-
                   <li class="nav-item">
                     <a href="{{url('/manage/review-create')}}" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>Add New</p>
                     </a>
                   </li>
-               
                 </ul>
               </li>
-            
-              <li class="nav-item">
+     
+             <li class="nav-item">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Orders
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a> 
+               <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{url('/manage/orders/all')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>All Orders</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{{url('/manage/orders/pending')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Pending Orders</p>
+                    </a>
+                  </li>
+                  
+                        <li class="nav-item">
+                    <a href="{{url('/manage/orders/cancelled')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Cancelled Orders</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{url('/manage/orders/confirmed')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Confirmed Orders</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{url('/manage/orders/delivered')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Delivered Orders</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{url('/manage/orders/returned')}}" class="nav-link active">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>Returned Orders</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+
+              
+              
+             <li class="nav-item">
                 <a href="{{url('/manage/contact-messages')}}" class="nav-link">
                   <i class="nav-icon bi bi-palette"></i>
                   <p>Contact Messages</p>
