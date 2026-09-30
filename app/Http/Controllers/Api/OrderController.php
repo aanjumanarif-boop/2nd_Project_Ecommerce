@@ -34,7 +34,7 @@ class OrderController extends Controller
 
         try{
             $product = Products::find($request->id);
-
+         
             $cartProduct = Cart::where('product_id', $product->id)->where('ip_address', $request->ip_address)->first();
 
             if($cartProduct == null){
@@ -94,6 +94,7 @@ class OrderController extends Controller
         }
 
     }
+    
 
     public function addToCartAuth (Request $request)
     {
@@ -132,6 +133,7 @@ class OrderController extends Controller
                 }
 
                 $cart->ip_address = $request->ip_address;
+               
                 $cart->user_id = Auth::user()->id;
 
                 $cart->save();
@@ -458,4 +460,72 @@ class OrderController extends Controller
     }
 
   
+     public function getOrders(Request $request)
+    {
+        try{
+            if(isset($request->status)){
+                $orders = Order::where('user_id', Auth::user()->id)->with('orderDetails')->where('status', $request->status)->paginate(10);
+            }
+            else{
+                $orders = Order::where('user_id', Auth::user()->id)->with('orderDetails')->paginate(10);
+            }
+
+            if($orders->isEmpty()){
+                return response()->json([
+                    'error' => true,
+                    'message' => 'No Data found',
+                    'orders' => []
+                ], 404);
+            }
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Orders Retrived Successfully',
+                'orders' => $orders
+            ], 200);
+
+        } catch(\Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => 'An Error Occured While Retriving Data',
+                'orders' => [],
+                // 'errorMessage' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getOrderCount ()
+    {
+        try{
+            $totalOrders = Order::where('user_id', Auth::user()->id)->count();
+            $pendingOrders = Order::where('user_id', Auth::user()->id)->where('status', 'pending')->count();
+            $confirmedOrders = Order::where('user_id', Auth::user()->id)->where('status', 'confirmed')->count();
+            $deliveredOrders = Order::where('user_id', Auth::user()->id)->where('status', 'delivered')->count();
+            $cancelledOrders = Order::where('user_id', Auth::user()->id)->where('status', 'cancelled')->count();
+            $returnedOrders = Order::where('user_id', Auth::user()->id)->where('status', 'returned')->count();
+
+            $count = [
+                'total'   => $totalOrders,
+                'pending' => $pendingOrders,
+                'confirmed' => $confirmedOrders,
+                'delivered' => $deliveredOrders,
+                'cancelled' => $cancelledOrders,
+                'returned' => $returnedOrders,
+            ];
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Order Statistics Retrived Successfully',
+                'orders' => $count
+            ], 200);
+
+        } catch(\Exception $e){
+            return response()->json([
+                'error' => true,
+                'message' => 'An Error Occured While Retriving Data',
+                'orders' => [],
+                // 'errorMessage' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

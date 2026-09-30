@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GeneralDataController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
@@ -36,9 +37,17 @@ use Illuminate\Support\Facades\Route;
  Route::post('/confirm-order', [OrderController::class, 'confirmOrder']);
  Route::get('/success/order-details/{invoice}', [OrderController::class, 'successDetails']);
 
-
+ 
+ //Login-Registration...
+ Route::post('/customer-registration', [AuthController::class, 'registration']);
+ Route::post('/customer-login', [AuthController::class, 'login']);
  
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/customer-logout', [AuthController::class, 'logout']);
+    Route::post('/add-to-cart-auth', [OrderController::class, 'addToCartAuth']);
+    Route::post('/confirm-order-auth', [OrderController::class, 'confirmOrderAuth']);
+    Route::get('/order-list', [OrderController::class, 'getOrders']);
+    Route::get('/order-count', [OrderController::class, 'getOrderCount']);
+  
 });
